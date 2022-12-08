@@ -4,10 +4,7 @@ pipeline {
             image 'node:lts-bullseye-slim' 
             args '-p 3000:3000' 
         }
-        environment {
-        DATE = new Date().format('yy.M')
-        TAG = "${DATE}.${BUILD_NUMBER}"
-        }
+      
 
     }
     agent {
