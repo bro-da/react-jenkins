@@ -8,6 +8,7 @@ pipeline {
     stages {
         stage('helm pull') { 
             steps {
+                sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
                 sh 'helm pull bitnami/postgresql' 
             }
         }
