@@ -26,7 +26,13 @@ pipeline {
         }
         stage("compress file for exporting"){
             steps{
-                sh 'tar cvzf postgresql.${BUILD_NUMBER} postgresql '
+                sh 'tar cvzf postgresql.${BUILD_NUMBER}.tgz postgresql '
+            }
+        }
+        stage("aws login "){
+            steps{
+                sh 'aws ecr get-login-password  --region us-east-1 | helm registry login --username AWS --password-stdin 976846671615.dkr.ecr.us-east-1.amazonaws.com'
+                sh 'helm push postgresql.${BUILD_NUMBER}.tgz oci://976846671615.dkr.ecr.us-east-1.amazonaws.com/postgresql-images'
             }
         }
     }
