@@ -26,7 +26,7 @@ pipeline {
         }
         stage("compress file for exporting"){
             steps{
-                sh 'tar cvzf postgresql.${BUILD_NUMBER} postgresql-*'
+                sh 'tar cvzf postgresql.${BUILD_NUMBER} postgresql-*/ '
             }
         }
     }
