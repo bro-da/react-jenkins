@@ -21,7 +21,7 @@ pipeline {
         stage("change values in helm-maven"){
             steps{
                 //  sh 'sed -i "s/tag: ""/tag: "$USER"/g" mavenhelm/values.yaml'
-                sh 'echo "changed values'
+                sh 'echo "changed values"'
             }
         }
         stage("compress file for exporting"){
