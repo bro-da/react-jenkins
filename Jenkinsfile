@@ -1,14 +1,31 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:latest' 
-            args '-p 3000:3000' 
-        }
+    agent any 
+     environment {
+        DATE = new Date().format('yy.M')
+        TAG = "${DATE}.${BUILD_NUMBER}"
+        // DOCKERHUB_CREDENTIALS=credentials('dockerhub')
     }
     stages {
-        stage('Build') { 
+        stage('helm pull') { 
             steps {
-                sh 'npm init' 
+                sh 'helm pull bitnami/postgresql' 
+            }
+        }
+        stage('extract'){
+            steps{
+                sh 'tar -zxvf postgresql-*'
+                sh 'rm -rf postgresql-*.tgz'
+            }
+        }
+        stage("change values in helm-maven"){
+            steps{
+                //  sh 'sed -i "s/tag: ""/tag: "$USER"/g" mavenhelm/values.yaml'
+                sh 'echo "changed values'
+            }
+        }
+        stage("compress file for exporting"){
+            steps{
+                sh 'tar cvzf postgresql.${BUILD_NUMBER} postgresql-*'
             }
         }
     }
